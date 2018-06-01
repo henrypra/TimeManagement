@@ -160,6 +160,10 @@ namespace TimeManagement
                     InputProjectTitle();
                     break;
                 default:
+                    
+                    ProjectWindow projectWindow = new ProjectWindow();
+                    projectWindow.Show();
+                    this.Close();
                     break;
             }
         }
