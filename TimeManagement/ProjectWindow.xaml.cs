@@ -20,11 +20,13 @@ namespace TimeManagement
     /// </summary>
     public partial class ProjectWindow : Window
     {
-        public ProjectWindow()
+        int id;
+        public ProjectWindow(int _id)
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            RetrieveData(2);
+            id = _id;
+            RetrieveData(id);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -57,7 +59,7 @@ namespace TimeManagement
                 {
                     string title = result["title"].ToString();
                     int time = Int32.Parse(result["time"].ToString());
-                    project_time.Content = time+"h";
+                    project_time.Content = time + "h";
                     project_title.Content = title;
                 }
             }

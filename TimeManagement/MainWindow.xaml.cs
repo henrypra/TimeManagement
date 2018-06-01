@@ -160,8 +160,11 @@ namespace TimeManagement
                     InputProjectTitle();
                     break;
                 default:
-                    
-                    ProjectWindow projectWindow = new ProjectWindow();
+                    int id = Int32.Parse(b.Name.Substring(4).ToString());
+                    ProjectWindow projectWindow = new ProjectWindow(id);
+                 
+                 
+              
                     projectWindow.Show();
                     this.Close();
                     break;
