@@ -24,5 +24,18 @@ namespace TimeManagement
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = (Button)sender;
+            switch (b.Name)
+            {
+                case "btn_back":
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                    break;
+            }
+        }
     }
 }
