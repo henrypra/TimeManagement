@@ -21,8 +21,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Button Name="btn_back"  Click="Button_Click"  Content="BACK"  HorizontalAlignment="Left"  FontSize="24" Margin="32,28,0,0" VerticalAlignment="Top" Width="130" Height="68"/>
-        <Label Content="Projekt" IsHitTestVisible="false" HorizontalContentAlignment="Center" Margin="10,28,10,0" VerticalAlignment="Top" Grid.ColumnSpan="3"  FontSize="48" Height="68"/>
-        <Label Content="53h insgesamt" FontSize="54" HorizontalContentAlignment="Center" Margin="0,2,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="1.395,0.519" Width="999" Grid.ColumnSpan="3" Height="88"/>
+        <Label Name ="project_title" Content="Projekt" IsHitTestVisible="false" HorizontalContentAlignment="Center" Margin="10,28,10,0" VerticalAlignment="Top" Grid.ColumnSpan="3"  FontSize="48" Height="68"/>
+        <Label Name ="project_time" Content="" FontSize="54" HorizontalContentAlignment="Center" Margin="0,2,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="1.395,0.519" Width="999" Grid.ColumnSpan="3" Height="88"/>
         <Label Content="___________________________________________" FontSize="54" HorizontalContentAlignment="Center" Margin="0,2,-10,59" Grid.Row="1" VerticalContentAlignment="Center" RenderTransformOrigin="1.395,0.519" Grid.ColumnSpan="3"/>
         <Label Content="Aktuell:" HorizontalContentAlignment="Center" FontSize="37" Margin="287,156,147,0" Grid.Row="1" VerticalAlignment="Top" Height="64" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
         <Label Content="34min" HorizontalContentAlignment="Center" FontSize="37" Margin="287,15,147,0" Grid.Row="2" VerticalAlignment="Top" Height="64" Grid.ColumnSpan="2"/>

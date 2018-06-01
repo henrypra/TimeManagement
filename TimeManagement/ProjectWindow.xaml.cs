@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace TimeManagement
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            RetrieveData(2);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -37,5 +39,30 @@ namespace TimeManagement
                     break;
             }
         }
+
+        private void RetrieveData(int id)
+        {
+            Database databaseObject = new Database();
+
+            //RETRIEVE FROM DATABASE
+            string query = "SELECT * FROM projects WHERE id ='" + id + "'";
+
+            SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+            databaseObject.OpenConnection();
+            SQLiteDataReader result = command.ExecuteReader();
+
+            if (result.HasRows)
+            {
+                while (result.Read())
+                {
+                    string title = result["title"].ToString();
+                    int time = Int32.Parse(result["time"].ToString());
+                    project_time.Content = time+"h";
+                    project_title.Content = title;
+                }
+            }
+            databaseObject.CloseConnection();
+        }
+
     }
 }
