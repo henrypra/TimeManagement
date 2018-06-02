@@ -93,12 +93,14 @@ namespace TimeManagement
             Database databaseObject = new Database();
 
             //INSERT INTO DATABASE
-            string query = "INSERT INTO projects ('title', 'time') VALUES (@title, @time)";
+            string query = "INSERT INTO projects ('title', 'h', 'min', 'sec') VALUES (@title, @h, @min, @sec)";
 
             SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
             databaseObject.OpenConnection();
             command.Parameters.AddWithValue("@title", projectName);
-            command.Parameters.AddWithValue("@time", 0);
+            command.Parameters.AddWithValue("@h", 0);
+            command.Parameters.AddWithValue("@min", 0);
+            command.Parameters.AddWithValue("@sec", 0);
             var result = command.ExecuteNonQuery();
             databaseObject.CloseConnection();
             generateButtons();
@@ -120,7 +122,7 @@ namespace TimeManagement
                 while (result.Read())
                 {
                     string title = result["title"].ToString();
-                    int time = Int32.Parse(result["time"].ToString());
+                   // int time = Int32.Parse(result["time"].ToString());
 
                     buttonProject.Content = title;
                     gridMain.Children.Add(buttonProject);
