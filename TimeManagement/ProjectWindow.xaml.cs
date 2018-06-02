@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Text;
-
+using Microsoft.VisualBasic;
 
 namespace TimeManagement
 {
@@ -231,12 +231,34 @@ namespace TimeManagement
                 case "btn_clear":
                     Reset();
                     break;
+                case "btn_delete":
+                    DeleteProject();
+                    break;
                 case "btn_back":
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                     this.Close();
                     break;
             }
+        }
+
+        private void DeleteProject()
+        {
+            var msgBox =  MessageBox.Show("Sind Sie sicher, dass Sie das Projekt '"+project_title.Content+"' löschen wollen?", "Projekt löschen?", MessageBoxButton.YesNo);
+            if (msgBox == MessageBoxResult.Yes)
+            {
+                Database databaseObject = new Database();
+
+                string query = "DELETE FROM projects WHERE id=" + id;
+
+                SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+                databaseObject.OpenConnection();
+                SQLiteDataReader result = command.ExecuteReader();
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
+   
         }
 
         private void RetrieveData(int id)
