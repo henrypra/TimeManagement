@@ -3,35 +3,62 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TimeManagement"
         mc:Ignorable="d"
        Name="Form"
         ResizeMode="NoResize"
-        Title="Zeitmanagement von Henry Pratsch" Height="660" Width="1005">
-    <Grid Name="gridMain" ShowGridLines="False">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+        Title="Zeitmanagement von Henry Pratsch" Height="660" Width="1005" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <StackPanel>
+        <Grid Height="50" VerticalAlignment="Top" Background="#FF4572A0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White">
+                    <materialDesign:PackIcon Kind="WindowMinimize"  Height="47" Width="25" Margin="0 0"/>
+                </Button>
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White">
+                    <materialDesign:PackIcon Kind="WindowClose" Height="50" Width="25" Margin="10 0"/>
+                </Button>
+            </StackPanel>
+            <TextBlock Text="Zeitmanagement von Henry Pratsch" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="18"/>
+        </Grid>
+        <Grid Name="gridMain" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Button Name="btn_back"  Click="Button_Click"  Content="BACK"  HorizontalAlignment="Left"  FontSize="24" Margin="20,28,0,0" VerticalAlignment="Top" Width="130" Height="68"/>
-        <Button Name="btn_delete"  Click="Button_Click"  Content="DELETE"  HorizontalAlignment="Left"  FontSize="24" Margin="181,28,0,0" VerticalAlignment="Top" Width="130" Height="68" RenderTransformOrigin="0.977,0.716" Grid.Column="2"/>
-        <Label Name ="project_title" Content="Projekt" IsHitTestVisible="false" HorizontalContentAlignment="Center" Margin="0,28,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3"  FontSize="48" Height="68"/>
-        <Label Name ="project_time" Content="" FontSize="54" HorizontalContentAlignment="Center" Margin="0,2,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="1.395,0.519" Width="999" Grid.ColumnSpan="3" Height="88"/>
-        <Label Content="___________________________________________" FontSize="54" HorizontalContentAlignment="Center" Margin="0,2,-10,59" Grid.Row="1" VerticalContentAlignment="Center" RenderTransformOrigin="1.395,0.519" Grid.ColumnSpan="3"/>
-        <Label Content="Aktuell:" HorizontalContentAlignment="Center" FontSize="38" Margin="183,143,81,0" Grid.Row="1" VerticalAlignment="Top" Height="64" Grid.ColumnSpan="2"/>
-        <Label Content="0h  0min  0s" Name="timerLabel"  HorizontalContentAlignment="Center" FontSize="24" Margin="183,15,81,0" Grid.Row="2" VerticalAlignment="Top" Height="64" Grid.ColumnSpan="2"/>
-        <Button Name="btn_start" Click="Button_Click" Content="START" Grid.Column="1" HorizontalAlignment="Left" Height="90" Margin="257,143,0,0" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" Width="90" Grid.ColumnSpan="2"/>
-        <Button Name="btn_pause" Click="Button_Click" Content="PAUSE" Grid.Column="2" HorizontalAlignment="Left" Height="90" Margin="33,143,0,0" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" Width="90" RenderTransformOrigin="-0.15,0.556"/>
-        <Button Name="btn_save" Click="Button_Click" Content="SPEICHERN" Grid.Column="1" HorizontalAlignment="Left" Height="90" Margin="257,47,0,0" Grid.Row="2" VerticalAlignment="Top" Width="90" RenderTransformOrigin="-0.15,0.556" Grid.ColumnSpan="2"/>
-        <Button Name="btn_clear" Click="Button_Click" Content="CLEAR" Grid.Column="2" HorizontalAlignment="Left" Height="90" Margin="33,47,0,0" Grid.Row="2" VerticalAlignment="Top" Width="90" RenderTransformOrigin="-0.15,0.556"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="67*"/>
+                <ColumnDefinition Width="67*"/>
+                <ColumnDefinition Width="55*"/>
+                <ColumnDefinition Width="12*"/>
+            </Grid.ColumnDefinitions>
 
+            <Button Background="White" BorderBrush="{x:Null}" Name="btn_back"  Click="Button_Click" HorizontalAlignment="Left"  FontSize="24" Margin="20,28,0,0" VerticalAlignment="Top" Width="130" Height="68">
+                <materialDesign:PackIcon Kind="ArrowLeft"  Height="47" Width="120" Margin="0 0"/>
+            </Button>
+            <Button Background="White" BorderBrush="{x:Null}" Name="btn_delete"  Click="Button_Click"  HorizontalAlignment="Left"  FontSize="24" Margin="181,28,0,0" VerticalAlignment="Top" Width="130" Height="68" RenderTransformOrigin="0.977,0.716" Grid.Column="2" Grid.ColumnSpan="2">
+                <materialDesign:PackIcon Kind="Delete"  Height="47" Width="120" Margin="0 0"/>
+            </Button>
+            <Label Name ="project_title" Content="Projekt" IsHitTestVisible="false" HorizontalContentAlignment="Center" Margin="0,28,0,0" VerticalAlignment="Top" Grid.ColumnSpan="4"  FontSize="48" Height="68"/>
+            <Label Name ="project_time" Content="" FontSize="54" HorizontalContentAlignment="Center" Margin="3,2,3,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="1.395,0.519" Width="999" Grid.ColumnSpan="4" Height="88"/>
+            <Label Content="___________________________________________" FontSize="54" HorizontalContentAlignment="Center" Margin="0,2,-10,59" Grid.Row="1" VerticalContentAlignment="Center" RenderTransformOrigin="1.395,0.519" Grid.ColumnSpan="4"/>
+            <Label Content="Aktuell:" HorizontalContentAlignment="Center" FontSize="38" Margin="183,143,81,0" Grid.Row="1" VerticalAlignment="Top" Height="64" Grid.ColumnSpan="2"/>
+            <Label Content="0h  0min  0s" Name="timerLabel"  HorizontalContentAlignment="Center" FontSize="24" Margin="183,15,81,0" Grid.Row="2" VerticalAlignment="Top" Height="64" Grid.ColumnSpan="2"/>
+            <Button Background="Teal" BorderBrush="Red" BorderThickness="4" Name="btn_start" Click="Button_Click" Grid.Column="1" HorizontalAlignment="Left" Height="90" Margin="257,143,0,0" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" Width="90" Grid.ColumnSpan="2">
+                <materialDesign:PackIcon Foreground="White" Kind="timer"  Height="60" Width="60" Margin="0 0"/>
+            </Button>
+            <Button Background="Teal" BorderBrush="{x:Null}" Name="btn_pause" Click="Button_Click" Grid.Column="2" HorizontalAlignment="Left" Height="90" Margin="33,143,0,0" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" Width="90" RenderTransformOrigin="-0.15,0.556">
+            <materialDesign:PackIcon Foreground="White" Kind="pause"  Height="60" Width="60" Margin="0 0"/>
+            </Button>
+            <Button Background="Teal" BorderBrush="{x:Null}" Name="btn_save" Click="Button_Click" Grid.Column="1" HorizontalAlignment="Left" Height="90" Margin="257,47,0,0" Grid.Row="2" VerticalAlignment="Top" Width="90" RenderTransformOrigin="-0.15,0.556" Grid.ColumnSpan="2">
+            <materialDesign:PackIcon Foreground="White" Kind="ContentSaveOutline"  Height="60" Width="60" Margin="0 0"/>
+            </Button>
+            <Button Background="Teal" BorderBrush="{x:Null}" Name="btn_clear" Click="Button_Click" Grid.Column="2" HorizontalAlignment="Left" Height="90" Margin="33,47,0,0" Grid.Row="2" VerticalAlignment="Top" Width="90" RenderTransformOrigin="-0.15,0.556">
+            <materialDesign:PackIcon Foreground="White" Kind="reload"  Height="60" Width="60" Margin="0 0"/>
+            </Button>
 
-    </Grid>
+        </Grid>
+    </StackPanel>
 </Window>
