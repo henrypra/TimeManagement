@@ -182,6 +182,12 @@ namespace TimeManagement
                 case "btn_back":
                     BackToMainMenu();
                     break;
+                case "btn_close":
+                    this.Close();
+                    break;
+                case "btn_minimize":
+                    this.WindowState = WindowState.Minimized;
+                    break;
             }
         }
 
