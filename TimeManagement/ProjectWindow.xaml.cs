@@ -237,11 +237,40 @@ namespace TimeManagement
                 case "btn_delete":
                     DeleteProject();
                     break;
+                case "btn_edit":
+                    EditProjectname();
+                    break;
                 case "btn_back":
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                     this.Close();
                     break;
+            }
+        }
+
+        private void EditProjectname()
+        {
+            string projectName;
+            string message, title, defaultValue;
+            message = "Geben Sie Ihrem  Projekt einen Namen";
+            title = "Projektname";
+            defaultValue = project_title.Content.ToString();//Display message, title, and default value.
+            projectName = Interaction.InputBox(message, title, defaultValue);
+
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            if (projectName != "")
+            {
+                Database databaseObject = new Database();
+
+                //INSERT INTO DATABASE
+                string query = "UPDATE projects SET title = '"+projectName+"' WHERE id = " + id;
+                SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+                databaseObject.OpenConnection();
+                var result = command.ExecuteNonQuery();
+                databaseObject.CloseConnection();
+                
+                project_title.Content = projectName;
             }
         }
 
