@@ -55,7 +55,7 @@ namespace TimeManagement
             FormatProperty = DependencyProperty.Register("Format", typeof(string), typeof(ProjectWindow), new UIPropertyMetadata("HH:mm:ss", formatChangedCallback));
             IntervalProperty = DependencyProperty.Register("Interval", typeof(int), typeof(ProjectWindow), new UIPropertyMetadata(1000));
         }
-        
+
         static void FormatChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             ProjectWindow thisStopWatch = (ProjectWindow)sender;
@@ -161,7 +161,7 @@ namespace TimeManagement
             Database databaseObject = new Database();
 
             //INSERT INTO DATABASE
-            string query = "UPDATE projects SET h= '"+ (hLocal + hGlobal)+ "', min='" + (mLocal + mGlobal) + "', sec='" + (sLocal + sGlobal) + "' WHERE id = " + id;
+            string query = "UPDATE projects SET h= '" + (hLocal + hGlobal) + "', min='" + (mLocal + mGlobal) + "', sec='" + (sLocal + sGlobal) + "' WHERE id = " + id;
             hLocal = 0;
             mLocal = 0;
             sLocal = 0;
@@ -170,7 +170,7 @@ namespace TimeManagement
             var result = command.ExecuteNonQuery();
             databaseObject.CloseConnection();
             timer.Stop();
-            timer.Tick -= timer_Tick;       
+            timer.Tick -= timer_Tick;
             timerLabel.Content = "00 : 00 : 00";
             if (state == StopWatchState.Started)
             {
@@ -212,7 +212,7 @@ namespace TimeManagement
 
             sLocal = Int32.Parse(date.ToString("ss"));
             String s = sLocal.ToString("00");
-            
+
 
             timerLabel.Content = h + " : " + m + " : " + s;
         }
@@ -247,7 +247,7 @@ namespace TimeManagement
 
         private void DeleteProject()
         {
-            var msgBox =  MessageBox.Show("Sind Sie sicher, dass Sie das Projekt '"+project_title.Content+"' löschen wollen?", "Projekt löschen?", MessageBoxButton.YesNo);
+            var msgBox = MessageBox.Show("Sind Sie sicher, dass Sie das Projekt '" + project_title.Content + "' löschen wollen?", "Projekt löschen?", MessageBoxButton.YesNo);
             if (msgBox == MessageBoxResult.Yes)
             {
                 Database databaseObject = new Database();
@@ -261,7 +261,7 @@ namespace TimeManagement
                 mainWindow.Show();
                 this.Close();
             }
-   
+
         }
 
         private void RetrieveData(int id)
@@ -279,14 +279,28 @@ namespace TimeManagement
             {
                 while (result.Read())
                 {
-                    hGlobal = Int32.Parse(result["h"].ToString());
-                    String h = hGlobal.ToString("00");
-                    
+                    sGlobal = Int32.Parse(result["sec"].ToString());
                     mGlobal = Int32.Parse(result["min"].ToString());
+                    hGlobal = Int32.Parse(result["h"].ToString());
+
+
+                    if (sGlobal >= 60)
+                    {
+                        sGlobal = sGlobal % 60;
+                        mGlobal++;
+                    }
+
+                    if (mGlobal >= 60)
+                    {
+                        mGlobal = mGlobal % 60;
+                        hGlobal++;
+                    }
+
+                    String s = sGlobal.ToString("00");
+
                     String m = mGlobal.ToString("00");
 
-                    sGlobal = Int32.Parse(result["sec"].ToString());
-                    String s = sGlobal.ToString("00");
+                    String h = hGlobal.ToString("00");
 
                     string title = result["title"].ToString();
                     project_time.Content = h + " : " + m + " : " + s;
