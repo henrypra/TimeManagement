@@ -136,70 +136,6 @@ namespace TimeManagement
             state = StopWatchState.Started;
         }
 
-        /// <summary>
-        /// Pauses the StopWatch.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">It is thrown when trying to pause the StopWatch when it is not in Started state.</exception>
-        public void Pause()
-        {
-            if (this.state != StopWatchState.Started)
-            {
-                return;
-            }
-
-            timer.Stop();
-            state = StopWatchState.Paused;
-            pausedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
-        }
-
-        /// <summary>
-        /// Stops the StopWatch.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">It is thrown when trying to stop the StopWatch when it is not in Started or Paused state.</exception>
-        public void Save()
-        {
-            Database databaseObject = new Database();
-
-            //INSERT INTO DATABASE
-            string query = "UPDATE projects SET h= '" + (hLocal + hGlobal) + "', min='" + (mLocal + mGlobal) + "', sec='" + (sLocal + sGlobal) + "' WHERE id = " + id;
-            hLocal = 0;
-            mLocal = 0;
-            sLocal = 0;
-            SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
-            databaseObject.OpenConnection();
-            var result = command.ExecuteNonQuery();
-            databaseObject.CloseConnection();
-            timer.Stop();
-            timer.Tick -= timer_Tick;
-            timerLabel.Content = "00 : 00 : 00";
-            if (state == StopWatchState.Started)
-            {
-                timer.Tick += timer_Tick;
-                startedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
-                timer.Start();
-                state = StopWatchState.Started;
-            }
-            else
-            {
-                state = StopWatchState.Stopped;
-            }
-
-            RetrieveData(id);
-        }
-
-        public void Reset()
-        {
-            timer.Stop();
-            timer.Tick -= timer_Tick;
-            timerLabel.Content = "00 : 00 : 00";
-            state = StopWatchState.Stopped;
-            if (timer != null)
-            {
-                timer.Stop();
-                timer.Tick -= timer_Tick;
-            }
-        }
-
         private void timer_Tick(object sender, EventArgs e)
         {
             DateTime date = DateTime.Now.Subtract(startedTimeSpan);
@@ -251,19 +187,79 @@ namespace TimeManagement
             }
         }
 
-        private void ResetMainTime()
+        public void Pause()
+        {
+            if (this.state != StopWatchState.Started)
+            {
+                return;
+            }
+
+            timer.Stop();
+            state = StopWatchState.Paused;
+            pausedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
+        }
+
+        public void Save()
         {
             Database databaseObject = new Database();
 
             //INSERT INTO DATABASE
-            string query = "UPDATE projects SET h = '0', min = '0', sec = '0' WHERE id = " + id;
+            string query = "UPDATE projects SET h= '" + (hLocal + hGlobal) + "', min='" + (mLocal + mGlobal) + "', sec='" + (sLocal + sGlobal) + "' WHERE id = " + id;
+            hLocal = 0;
+            mLocal = 0;
+            sLocal = 0;
             SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
             databaseObject.OpenConnection();
             var result = command.ExecuteNonQuery();
             databaseObject.CloseConnection();
-            
-            project_time.Content = "00 : 00 : 00";
+            timer.Stop();
+            timer.Tick -= timer_Tick;
+            timerLabel.Content = "00 : 00 : 00";
+            if (state == StopWatchState.Started)
+            {
+                timer.Tick += timer_Tick;
+                startedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
+                timer.Start();
+                state = StopWatchState.Started;
+            }
+            else
+            {
+                state = StopWatchState.Stopped;
+            }
+
             RetrieveData(id);
+        }
+
+        public void Reset()
+        {
+            timer.Stop();
+            timer.Tick -= timer_Tick;
+            timerLabel.Content = "00 : 00 : 00";
+            state = StopWatchState.Stopped;
+            if (timer != null)
+            {
+                timer.Stop();
+                timer.Tick -= timer_Tick;
+            }
+        }
+
+        private void ResetMainTime()
+        {
+            var msgBox = MessageBox.Show("Sind Sie sicher, dass Sie die insgesamt investierte Zeit für das Projekt '"+project_title.Content+"' zurücksetzen wollen?", "Zeit zurücksetzen?", MessageBoxButton.YesNo);
+            if (msgBox == MessageBoxResult.Yes)
+            {
+                Database databaseObject = new Database();
+
+                //INSERT INTO DATABASE
+                string query = "UPDATE projects SET h = '0', min = '0', sec = '0' WHERE id = " + id;
+                SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+                databaseObject.OpenConnection();
+                var result = command.ExecuteNonQuery();
+                databaseObject.CloseConnection();
+
+                project_time.Content = "00 : 00 : 00";
+                RetrieveData(id);
+            }
 
         }
 
@@ -283,12 +279,12 @@ namespace TimeManagement
                 Database databaseObject = new Database();
 
                 //INSERT INTO DATABASE
-                string query = "UPDATE projects SET title = '"+projectName+"' WHERE id = " + id;
+                string query = "UPDATE projects SET title = '" + projectName + "' WHERE id = " + id;
                 SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
                 databaseObject.OpenConnection();
                 var result = command.ExecuteNonQuery();
                 databaseObject.CloseConnection();
-                
+
                 project_title.Content = projectName;
             }
         }
