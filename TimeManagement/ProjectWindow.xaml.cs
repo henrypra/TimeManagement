@@ -162,7 +162,9 @@ namespace TimeManagement
 
             //INSERT INTO DATABASE
             string query = "UPDATE projects SET h= '"+ (hLocal + hGlobal)+ "', min='" + (mLocal + mGlobal) + "', sec='" + (sLocal + sGlobal) + "' WHERE id = " + id;
-
+            hLocal = 0;
+            mLocal = 0;
+            sLocal = 0;
             SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
             databaseObject.OpenConnection();
             var result = command.ExecuteNonQuery();
