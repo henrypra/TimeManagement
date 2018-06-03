@@ -168,11 +168,8 @@ namespace TimeManagement
             var result = command.ExecuteNonQuery();
             databaseObject.CloseConnection();
             timer.Stop();
-            timer.Tick -= timer_Tick;
-            hLocal = 0;
-            mLocal = 0;
-            sLocal = 0;
-            timerLabel.Content = hLocal + "h  " + mLocal + "min  " + sLocal + "s";
+            timer.Tick -= timer_Tick;       
+            timerLabel.Content = "00 : 00 : 00";
             if (state == StopWatchState.Started)
             {
                 timer.Tick += timer_Tick;
@@ -192,10 +189,7 @@ namespace TimeManagement
         {
             timer.Stop();
             timer.Tick -= timer_Tick;
-            hLocal = 0;
-            mLocal = 0;
-            sLocal = 0;
-            timerLabel.Content = hLocal + "h  " + mLocal + "min  " + sLocal + "s";
+            timerLabel.Content = "00 : 00 : 00";
             state = StopWatchState.Stopped;
             if (timer != null)
             {
@@ -209,9 +203,16 @@ namespace TimeManagement
             DateTime date = DateTime.Now.Subtract(startedTimeSpan);
 
             hLocal = Int32.Parse(date.ToString("HH"));
+            String h = hLocal.ToString("00");
+
             mLocal = Int32.Parse(date.ToString("mm"));
+            String m = mLocal.ToString("00");
+
             sLocal = Int32.Parse(date.ToString("ss"));
-            timerLabel.Content = hLocal + "h  " + mLocal + "min  " + sLocal + "s";
+            String s = sLocal.ToString("00");
+            
+
+            timerLabel.Content = h + " : " + m + " : " + s;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -277,11 +278,16 @@ namespace TimeManagement
                 while (result.Read())
                 {
                     hGlobal = Int32.Parse(result["h"].ToString());
+                    String h = hGlobal.ToString("00");
+                    
                     mGlobal = Int32.Parse(result["min"].ToString());
+                    String m = mGlobal.ToString("00");
+
                     sGlobal = Int32.Parse(result["sec"].ToString());
+                    String s = sGlobal.ToString("00");
 
                     string title = result["title"].ToString();
-                    project_time.Content = hGlobal + "h  " + mGlobal + "min  " + sGlobal + "s";
+                    project_time.Content = h + " : " + m + " : " + s;
                     project_title.Content = title;
                 }
             }
