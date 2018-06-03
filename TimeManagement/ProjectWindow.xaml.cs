@@ -240,12 +240,31 @@ namespace TimeManagement
                 case "btn_edit":
                     EditProjectname();
                     break;
+                case "btn_erase":
+                    ResetMainTime();
+                    break;
                 case "btn_back":
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                     this.Close();
                     break;
             }
+        }
+
+        private void ResetMainTime()
+        {
+            Database databaseObject = new Database();
+
+            //INSERT INTO DATABASE
+            string query = "UPDATE projects SET h = '0', min = '0', sec = '0' WHERE id = " + id;
+            SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+            databaseObject.OpenConnection();
+            var result = command.ExecuteNonQuery();
+            databaseObject.CloseConnection();
+            
+            project_time.Content = "00 : 00 : 00";
+            RetrieveData(id);
+
         }
 
         private void EditProjectname()
