@@ -38,10 +38,10 @@
 
         <Grid Height="475" Margin="0,0,0,0">
             <Grid Name="ControlPanel" Margin="500,0,0,0">
-                <Button Background="Teal" BorderBrush="Red" BorderThickness="4" Name="btn_start" Click="Button_Click"  HorizontalAlignment="Left" Height="120" Margin="30,100,0,0"  VerticalAlignment="Top" Width="120">
+                <Button Background="Teal" BorderBrush="{x:Null}" BorderThickness="4" Name="btn_start" Click="Button_Click"  HorizontalAlignment="Left" Height="120" Margin="30,100,0,0"  VerticalAlignment="Top" Width="120">
                     <materialDesign:PackIcon Foreground="White" Kind="timer"  Height="60" Width="60" Margin="0 0"/>
                 </Button>
-                <Button Background="Teal" BorderBrush="{x:Null}" Name="btn_pause" Click="Button_Click" HorizontalAlignment="Left" Height="120" Margin="165,100,0,0"  VerticalAlignment="Top" Width="120">
+                <Button Background="Teal" BorderBrush="{x:Null}"  BorderThickness="4" Name="btn_pause" Click="Button_Click" HorizontalAlignment="Left" Height="120" Margin="165,100,0,0"  VerticalAlignment="Top" Width="120">
                     <materialDesign:PackIcon Foreground="White" Kind="pause"  Height="60" Width="60" Margin="0 0"/>
                 </Button>
                 <Button Background="Teal" BorderBrush="{x:Null}" Name="btn_save" Click="Button_Click" HorizontalAlignment="Left" Height="120" Margin="30,235,0,-52" VerticalAlignment="Top" Width="120">

@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using System.Text;
 using Microsoft.VisualBasic;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 
 namespace TimeManagement
 {
@@ -109,6 +110,7 @@ namespace TimeManagement
         {
             if (this.state == StopWatchState.Started)
             {
+
                 return;
             }
 
@@ -135,6 +137,8 @@ namespace TimeManagement
 
             timer.Start();
             state = StopWatchState.Started;
+            btn_start.BorderBrush = Brushes.Red;
+            btn_pause.BorderBrush = Brushes.Transparent;
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -153,6 +157,7 @@ namespace TimeManagement
 
             timerLabel.Content = h + " : " + m + " : " + s;
         }
+ 
 
         private void headerThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
@@ -235,6 +240,8 @@ namespace TimeManagement
             timer.Stop();
             state = StopWatchState.Paused;
             pausedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
+            btn_start.BorderBrush = Brushes.Transparent;
+            btn_pause.BorderBrush = Brushes.Red; 
         }
 
         public void Save()
@@ -259,9 +266,13 @@ namespace TimeManagement
                 startedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
                 timer.Start();
                 state = StopWatchState.Started;
+                btn_pause.BorderBrush = Brushes.Transparent;
+                btn_start.BorderBrush = Brushes.Red;
             }
             else
             {
+                btn_pause.BorderBrush = Brushes.Transparent;
+                btn_start.BorderBrush = Brushes.Transparent;
                 state = StopWatchState.Stopped;
             }
 
@@ -279,6 +290,8 @@ namespace TimeManagement
                 timer.Stop();
                 timer.Tick -= timer_Tick;
             }
+            btn_pause.BorderBrush = Brushes.Transparent;
+            btn_start.BorderBrush = Brushes.Transparent;
         }
 
         private void ResetMainTime()
