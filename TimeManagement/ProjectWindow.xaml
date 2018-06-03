@@ -62,21 +62,23 @@
                 <Label Content="Aktuell:" HorizontalContentAlignment="Center" FontSize="38" Margin="99,257,165,-41" VerticalAlignment="Top" Height="64"/>
 
             </Grid>
-            <Grid HorizontalAlignment="Left" Height="455" Margin="105,10,0,0" VerticalAlignment="Top" Width="395">
-                <Label Content="Investierte Zeit" FontSize="16" FontFamily="Trebuchet MS" HorizontalContentAlignment="Center" Margin="10,36,10,383" VerticalContentAlignment="Center" Width="375"/>
+            <Border BorderBrush="#e4e4e4" BorderThickness="1" HorizontalAlignment="Left" Height="455" Margin="105,10,0,0" VerticalAlignment="Top" Width="395">
+                <Grid  >
 
-                <Label Name ="project_time" Content="00 : 00 : 00" FontFamily="Digital-7 Mono Regular" FontSize="54" HorizontalContentAlignment="Center" Margin="0,72,0,79"  />
+                    <Label Content="Investierte Zeit" FontSize="16" FontFamily="Trebuchet MS" HorizontalContentAlignment="Center" Margin="10,36,10,383" VerticalContentAlignment="Center" Width="375"/>
 
-                <Label Content="Stunden" HorizontalAlignment="Left" Margin="43,140,0,0" VerticalAlignment="Top" FontFamily="Trebuchet MS" FontSize="18" Height="37" Width="77"/>
-                <Label Content="Minuten" HorizontalAlignment="Left" Margin="160,140,0,0" VerticalAlignment="Top" FontFamily="Trebuchet MS" FontSize="18" Height="37" Width="86"/>
-                <Label Content="Sekunden" HorizontalAlignment="Left" Margin="276,140,0,0" VerticalAlignment="Top" FontFamily="Trebuchet MS" FontSize="18" Height="37" Width="89"/>
+                    <Label Name ="project_time" Content="00 : 00 : 00" FontFamily="Digital-7 Mono Regular" FontSize="54" HorizontalContentAlignment="Center" Margin="0,72,0,79"  />
 
-                <Label Content="________________________________" FontSize="54" HorizontalContentAlignment="Center" Margin="0,127,0,10"/>
+                    <Label Content="Stunden" HorizontalAlignment="Left" Margin="43,140,0,0" VerticalAlignment="Top" FontFamily="Trebuchet MS" FontSize="18" Height="37" Width="77"/>
+                    <Label Content="Minuten" HorizontalAlignment="Left" Margin="160,140,0,0" VerticalAlignment="Top" FontFamily="Trebuchet MS" FontSize="18" Height="37" Width="86"/>
+                    <Label Content="Sekunden" HorizontalAlignment="Left" Margin="276,140,0,0" VerticalAlignment="Top" FontFamily="Trebuchet MS" FontSize="18" Height="37" Width="89"/>
+                    <Border BorderBrush="black" BorderThickness="0 0 0 4" HorizontalAlignment="Left" Height="197" VerticalAlignment="Top" Width="335" Margin="30,4,0,0"/>
 
-                <Label Content="Aktuelle Sitzung" FontSize="16" FontFamily="Trebuchet MS" HorizontalContentAlignment="Center" Margin="10,219,10,191" VerticalContentAlignment="Center" Width="375"/>
-                <Label Content="00 : 00 : 00" Name="timerLabel"  HorizontalContentAlignment="Center" FontFamily="Digital-7" FontWeight="Bold" FontSize="42" Margin="10,252,10,134" VerticalContentAlignment="Center"/>
+                    <Label Content="Aktuelle Sitzung" FontSize="16" FontFamily="Trebuchet MS" HorizontalContentAlignment="Center" Margin="10,219,10,191" VerticalContentAlignment="Center" Width="375"/>
+                    <Label Content="00 : 00 : 00" Name="timerLabel"  HorizontalContentAlignment="Center" FontFamily="Digital-7" FontWeight="Bold" FontSize="42" Margin="10,252,10,134" VerticalContentAlignment="Center"/>
 
-            </Grid>
+                </Grid>
+            </Border>
         </Grid>
 
 
