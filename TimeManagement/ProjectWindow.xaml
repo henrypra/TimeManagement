@@ -19,7 +19,13 @@
                     <materialDesign:PackIcon Kind="WindowClose" Height="35" Width="25" Margin="10 0"/>
                 </Button>
             </StackPanel>
-            <TextBlock Text="Zeitmanagement" HorizontalAlignment="Left" Margin="20 0" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
+            <Thumb 
+                x:Name="headerThumb" 
+                Opacity="0" 
+                Background="{x:Null}" 
+                Foreground="{x:Null}" 
+                DragDelta="headerThumb_DragDelta" Margin="0,0,77,0"/>
+            <TextBlock Text="Zeitmanagement" IsHitTestVisible="false" HorizontalAlignment="Left" Margin="20 0" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
         </Grid>
         <Grid Height="70" VerticalAlignment="Top" Background="#4d4d4d">
             <Button Background="#4d4d4d" BorderBrush="{x:Null}" Name="btn_back" VerticalAlignment="Center" Click="Button_Click" HorizontalAlignment="Left"  Width="99" Height="70">

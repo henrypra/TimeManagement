@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Text;
 using Microsoft.VisualBasic;
+using System.Windows.Controls.Primitives;
 
 namespace TimeManagement
 {
@@ -151,6 +152,12 @@ namespace TimeManagement
 
 
             timerLabel.Content = h + " : " + m + " : " + s;
+        }
+
+        private void headerThumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            Left = Left + e.HorizontalChange;
+            Top = Top + e.VerticalChange;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
