@@ -180,10 +180,35 @@ namespace TimeManagement
                     ResetMainTime();
                     break;
                 case "btn_back":
+                    BackToMainMenu();
+                    break;
+            }
+        }
+
+        private void BackToMainMenu()
+        {
+            if (state == StopWatchState.Started || state == StopWatchState.Paused)
+            {
+                var msgBox = MessageBox.Show("Möchten Sie zum Hauptmenü zurückkehren und ihre aktuelle Sitzung speichern?", "Sitzung speichern?", MessageBoxButton.YesNoCancel);
+                if (msgBox == MessageBoxResult.Yes)
+                {
+                    Save();
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                     this.Close();
-                    break;
+                }
+                else if (msgBox == MessageBoxResult.No)
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                }
+            }
+            else
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
             }
         }
 
@@ -245,7 +270,7 @@ namespace TimeManagement
 
         private void ResetMainTime()
         {
-            var msgBox = MessageBox.Show("Sind Sie sicher, dass Sie die insgesamt investierte Zeit für das Projekt '"+project_title.Content+"' zurücksetzen wollen?", "Zeit zurücksetzen?", MessageBoxButton.YesNo);
+            var msgBox = MessageBox.Show("Sind Sie sicher, dass Sie die insgesamt investierte Zeit für das Projekt '" + project_title.Content + "' zurücksetzen wollen?", "Zeit zurücksetzen?", MessageBoxButton.YesNo);
             if (msgBox == MessageBoxResult.Yes)
             {
                 Database databaseObject = new Database();
