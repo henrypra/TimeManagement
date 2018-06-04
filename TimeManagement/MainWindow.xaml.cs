@@ -33,7 +33,6 @@ namespace TimeManagement
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitDatabase();
             generateButtons();
-
         }
 
         private void InputProjectTitle()
@@ -67,6 +66,8 @@ namespace TimeManagement
 
                         buttonProject.Name = "prj_" + count.ToString();
                         RetrieveData(count);
+                        buttonProject.HorizontalContentAlignment = HorizontalAlignment.Center;
+                        buttonProject.FontSize = 24;
                         buttonProject.Click += Button_Click;
                         Grid.SetColumn(buttonProject, j);
                         Grid.SetRow(buttonProject, i);
@@ -122,9 +123,11 @@ namespace TimeManagement
                 while (result.Read())
                 {
                     string title = result["title"].ToString();
-                   // int time = Int32.Parse(result["time"].ToString());
+                    int h = Int32.Parse(result["h"].ToString());
+                    int m = Int32.Parse(result["min"].ToString());
+                    int s = Int32.Parse(result["sec"].ToString());
 
-                    buttonProject.Content = title;
+                    buttonProject.Content = title+"\n"+h+"h  "+m+"min  "+s+"s";
                     gridMain.Children.Add(buttonProject);
                 }
             }

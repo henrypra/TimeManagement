@@ -4,7 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Text;
-
+using Microsoft.VisualBasic;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 
 namespace TimeManagement
 {
@@ -55,7 +57,7 @@ namespace TimeManagement
             FormatProperty = DependencyProperty.Register("Format", typeof(string), typeof(ProjectWindow), new UIPropertyMetadata("HH:mm:ss", formatChangedCallback));
             IntervalProperty = DependencyProperty.Register("Interval", typeof(int), typeof(ProjectWindow), new UIPropertyMetadata(1000));
         }
-        
+
         static void FormatChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             ProjectWindow thisStopWatch = (ProjectWindow)sender;
@@ -108,6 +110,7 @@ namespace TimeManagement
         {
             if (this.state == StopWatchState.Started)
             {
+
                 return;
             }
 
@@ -134,74 +137,8 @@ namespace TimeManagement
 
             timer.Start();
             state = StopWatchState.Started;
-        }
-
-        /// <summary>
-        /// Pauses the StopWatch.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">It is thrown when trying to pause the StopWatch when it is not in Started state.</exception>
-        public void Pause()
-        {
-            if (this.state != StopWatchState.Started)
-            {
-                return;
-            }
-
-            timer.Stop();
-            state = StopWatchState.Paused;
-            pausedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
-        }
-
-        /// <summary>
-        /// Stops the StopWatch.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">It is thrown when trying to stop the StopWatch when it is not in Started or Paused state.</exception>
-        public void Save()
-        {
-            Database databaseObject = new Database();
-
-            //INSERT INTO DATABASE
-            string query = "UPDATE projects SET h= '"+ (hLocal + hGlobal)+ "', min='" + (mLocal + mGlobal) + "', sec='" + (sLocal + sGlobal) + "' WHERE id = " + id;
-
-            SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
-            databaseObject.OpenConnection();
-            var result = command.ExecuteNonQuery();
-            databaseObject.CloseConnection();
-            timer.Stop();
-            timer.Tick -= timer_Tick;
-            hLocal = 0;
-            mLocal = 0;
-            sLocal = 0;
-            timerLabel.Content = hLocal + "h  " + mLocal + "min  " + sLocal + "s";
-            if (state == StopWatchState.Started)
-            {
-                timer.Tick += timer_Tick;
-                startedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
-                timer.Start();
-                state = StopWatchState.Started;
-            }
-            else
-            {
-                state = StopWatchState.Stopped;
-            }
-
-            RetrieveData(id);
-        }
-
-        public void Reset()
-        {
-            timer.Stop();
-            timer.Tick -= timer_Tick;
-            hLocal = 0;
-            mLocal = 0;
-            sLocal = 0;
-            timerLabel.Content = hLocal + "h  " + mLocal + "min  " + sLocal + "s";
-            state = StopWatchState.Stopped;
-            if (timer != null)
-            {
-                timer.Stop();
-                timer.Tick -= timer_Tick;
-            }
+            btn_start.BorderBrush = Brushes.Red;
+            btn_pause.BorderBrush = Brushes.Transparent;
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -209,9 +146,23 @@ namespace TimeManagement
             DateTime date = DateTime.Now.Subtract(startedTimeSpan);
 
             hLocal = Int32.Parse(date.ToString("HH"));
+            String h = hLocal.ToString("00");
+
             mLocal = Int32.Parse(date.ToString("mm"));
+            String m = mLocal.ToString("00");
+
             sLocal = Int32.Parse(date.ToString("ss"));
-            timerLabel.Content = hLocal + "h  " + mLocal + "min  " + sLocal + "s";
+            String s = sLocal.ToString("00");
+
+
+            timerLabel.Content = h + " : " + m + " : " + s;
+        }
+ 
+
+        private void headerThumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            Left = Left + e.HorizontalChange;
+            Top = Top + e.VerticalChange;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -231,12 +182,181 @@ namespace TimeManagement
                 case "btn_clear":
                     Reset();
                     break;
+                case "btn_delete":
+                    DeleteProject();
+                    break;
+                case "btn_edit":
+                    EditProjectname();
+                    break;
+                case "btn_erase":
+                    ResetMainTime();
+                    break;
                 case "btn_back":
+                    BackToMainMenu();
+                    break;
+                case "btn_close":
+                    this.Close();
+                    break;
+                case "btn_minimize":
+                    this.WindowState = WindowState.Minimized;
+                    break;
+            }
+        }
+
+        private void BackToMainMenu()
+        {
+            if (state == StopWatchState.Started || state == StopWatchState.Paused)
+            {
+                var msgBox = MessageBox.Show("Möchten Sie zum Hauptmenü zurückkehren und ihre aktuelle Sitzung speichern?", "Sitzung speichern?", MessageBoxButton.YesNoCancel);
+                if (msgBox == MessageBoxResult.Yes)
+                {
+                    Save();
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                     this.Close();
-                    break;
+                }
+                else if (msgBox == MessageBoxResult.No)
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                }
             }
+            else
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
+        }
+
+        public void Pause()
+        {
+            if (this.state != StopWatchState.Started)
+            {
+                return;
+            }
+
+            timer.Stop();
+            state = StopWatchState.Paused;
+            pausedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
+            btn_start.BorderBrush = Brushes.Transparent;
+            btn_pause.BorderBrush = Brushes.Red; 
+        }
+
+        public void Save()
+        {
+            Database databaseObject = new Database();
+
+            //INSERT INTO DATABASE
+            string query = "UPDATE projects SET h= '" + (hLocal + hGlobal) + "', min='" + (mLocal + mGlobal) + "', sec='" + (sLocal + sGlobal) + "' WHERE id = " + id;
+            hLocal = 0;
+            mLocal = 0;
+            sLocal = 0;
+            SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+            databaseObject.OpenConnection();
+            var result = command.ExecuteNonQuery();
+            databaseObject.CloseConnection();
+            timer.Stop();
+            timer.Tick -= timer_Tick;
+            timerLabel.Content = "00 : 00 : 00";
+            if (state == StopWatchState.Started)
+            {
+                timer.Tick += timer_Tick;
+                startedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
+                timer.Start();
+                state = StopWatchState.Started;
+                btn_pause.BorderBrush = Brushes.Transparent;
+                btn_start.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                btn_pause.BorderBrush = Brushes.Transparent;
+                btn_start.BorderBrush = Brushes.Transparent;
+                state = StopWatchState.Stopped;
+            }
+
+            RetrieveData(id);
+        }
+
+        public void Reset()
+        {
+            timer.Stop();
+            timer.Tick -= timer_Tick;
+            timerLabel.Content = "00 : 00 : 00";
+            state = StopWatchState.Stopped;
+            if (timer != null)
+            {
+                timer.Stop();
+                timer.Tick -= timer_Tick;
+            }
+            btn_pause.BorderBrush = Brushes.Transparent;
+            btn_start.BorderBrush = Brushes.Transparent;
+        }
+
+        private void ResetMainTime()
+        {
+            var msgBox = MessageBox.Show("Sind Sie sicher, dass Sie die insgesamt investierte Zeit für das Projekt '" + project_title.Content + "' zurücksetzen wollen?", "Zeit zurücksetzen?", MessageBoxButton.YesNo);
+            if (msgBox == MessageBoxResult.Yes)
+            {
+                Database databaseObject = new Database();
+
+                //INSERT INTO DATABASE
+                string query = "UPDATE projects SET h = '0', min = '0', sec = '0' WHERE id = " + id;
+                SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+                databaseObject.OpenConnection();
+                var result = command.ExecuteNonQuery();
+                databaseObject.CloseConnection();
+
+                project_time.Content = "00 : 00 : 00";
+                RetrieveData(id);
+            }
+
+        }
+
+        private void EditProjectname()
+        {
+            string projectName;
+            string message, title, defaultValue;
+            message = "Geben Sie Ihrem  Projekt einen Namen";
+            title = "Projektname";
+            defaultValue = project_title.Content.ToString();//Display message, title, and default value.
+            projectName = Interaction.InputBox(message, title, defaultValue);
+
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            if (projectName != "")
+            {
+                Database databaseObject = new Database();
+
+                //INSERT INTO DATABASE
+                string query = "UPDATE projects SET title = '" + projectName + "' WHERE id = " + id;
+                SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+                databaseObject.OpenConnection();
+                var result = command.ExecuteNonQuery();
+                databaseObject.CloseConnection();
+
+                project_title.Content = projectName;
+            }
+        }
+
+        private void DeleteProject()
+        {
+            var msgBox = MessageBox.Show("Sind Sie sicher, dass Sie das Projekt '" + project_title.Content + "' löschen wollen?", "Projekt löschen?", MessageBoxButton.YesNo);
+            if (msgBox == MessageBoxResult.Yes)
+            {
+                Database databaseObject = new Database();
+
+                string query = "DELETE FROM projects WHERE id=" + id;
+
+                SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+                databaseObject.OpenConnection();
+                SQLiteDataReader result = command.ExecuteReader();
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
+
         }
 
         private void RetrieveData(int id)
@@ -254,12 +374,31 @@ namespace TimeManagement
             {
                 while (result.Read())
                 {
-                    hGlobal = Int32.Parse(result["h"].ToString());
-                    mGlobal = Int32.Parse(result["min"].ToString());
                     sGlobal = Int32.Parse(result["sec"].ToString());
+                    mGlobal = Int32.Parse(result["min"].ToString());
+                    hGlobal = Int32.Parse(result["h"].ToString());
+
+
+                    if (sGlobal >= 60)
+                    {
+                        sGlobal = sGlobal % 60;
+                        mGlobal++;
+                    }
+
+                    if (mGlobal >= 60)
+                    {
+                        mGlobal = mGlobal % 60;
+                        hGlobal++;
+                    }
+
+                    String s = sGlobal.ToString("00");
+
+                    String m = mGlobal.ToString("00");
+
+                    String h = hGlobal.ToString("00");
 
                     string title = result["title"].ToString();
-                    project_time.Content = hGlobal + "h  " + mGlobal + "min  " + sGlobal + "s";
+                    project_time.Content = h + " : " + m + " : " + s;
                     project_title.Content = title;
                 }
             }
