@@ -22,10 +22,18 @@ namespace TimeManagement
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool exists = false;
+        int childDetected;
         Button buttonProject;
         private string projectName;
         private int count;
         private int numberOfChildren;
+
+        //Database
+        Database databaseObject;
+        SQLiteCommand command;
+        SQLiteDataReader dataReader;
+        string query;
 
         public MainWindow()
         {
@@ -47,7 +55,6 @@ namespace TimeManagement
 
             if (projectName != "")
             {
-                numberOfChildren++;
                 InsertData();
             }
         }
@@ -55,48 +62,52 @@ namespace TimeManagement
         private void generateButtons()
         {
             count = 0;
-            for (int i = 0; i < 3; i++)
+            int usedSlots = 0;
+            while (count < 9)
             {
-                for (int j = 0; j < 3; j++)
+                exists = false;
+                while (!exists && count < 9)
                 {
                     count++;
-                    if (count <= numberOfChildren)
-                    {
-                        buttonProject = new Button();
-
-                        buttonProject.Name = "prj_" + count.ToString();
-                        RetrieveData(count);
-                        buttonProject.HorizontalContentAlignment = HorizontalAlignment.Center;
-                        buttonProject.FontSize = 24;
-                        buttonProject.Click += Button_Click;
-                        Grid.SetColumn(buttonProject, j);
-                        Grid.SetRow(buttonProject, i);
-                    }
-                    else
-                    {
-                        Button buttonCancel = new Button();
-                        buttonCancel.Content = "+";
-                        buttonCancel.FontSize = 65;
-                        buttonCancel.Name = "Add";
-                        buttonCancel.Click += Button_Click;
-                        Grid.SetColumn(buttonCancel, j);
-                        Grid.SetRow(buttonCancel, i);
-                        gridMain.Children.Add(buttonCancel);
-                        return;
-                    }
-
+                    RetrieveData(count);
+                }
+                if (exists)
+                {
+                    buttonProject.Name = "prj_" + count.ToString();
+                    buttonProject.HorizontalContentAlignment = HorizontalAlignment.Center;
+                    buttonProject.FontSize = 24;
+                    buttonProject.Click += Button_Click;
+                    Grid.SetColumn(buttonProject, usedSlots % 3);
+                    Grid.SetRow(buttonProject, usedSlots / 3);
+                    gridMain.Children.Add(buttonProject);
+                    usedSlots++;
+                }
+                else if (usedSlots < 9)
+                {
+                    Button buttonCancel = new Button();
+                    buttonCancel.Content = "+";
+                    buttonCancel.FontSize = 65;
+                    buttonCancel.Name = "Add";
+                    buttonCancel.Click += Button_Click;
+                    Grid.SetColumn(buttonCancel, usedSlots % 3);
+                    Grid.SetRow(buttonCancel, usedSlots / 3);
+                    gridMain.Children.Add(buttonCancel);
+                    return;
                 }
             }
         }
 
         private void InsertData()
         {
-            Database databaseObject = new Database();
+
+            databaseObject = new Database();
 
             //INSERT INTO DATABASE
-            string query = "INSERT INTO projects ('title', 'h', 'min', 'sec') VALUES (@title, @h, @min, @sec)";
 
-            SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+
+            query = "INSERT INTO projects ('title', 'h', 'min', 'sec') VALUES (@title, @h, @min, @sec)";
+
+            command = new SQLiteCommand(query, databaseObject.connection);
             databaseObject.OpenConnection();
             command.Parameters.AddWithValue("@title", projectName);
             command.Parameters.AddWithValue("@h", 0);
@@ -109,50 +120,67 @@ namespace TimeManagement
 
         private void RetrieveData(int id)
         {
-            Database databaseObject = new Database();
+            databaseObject = new Database();
 
             //RETRIEVE FROM DATABASE
-            string query = "SELECT * FROM projects WHERE id ='" + id + "'";
+            query = "SELECT * FROM projects WHERE id ='" + id + "'";
 
-            SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+            command = new SQLiteCommand(query, databaseObject.connection);
             databaseObject.OpenConnection();
-            SQLiteDataReader result = command.ExecuteReader();
+            dataReader = command.ExecuteReader();
 
-            if (result.HasRows)
+
+
+            if (dataReader.HasRows)
             {
-                while (result.Read())
+                exists = true;
+                while (dataReader.Read())
                 {
-                    string title = result["title"].ToString();
-                    int h = Int32.Parse(result["h"].ToString());
-                    int m = Int32.Parse(result["min"].ToString());
-                    int s = Int32.Parse(result["sec"].ToString());
+                    buttonProject = new Button();
 
-                    buttonProject.Content = title+"\n"+h+"h  "+m+"min  "+s+"s";
-                    gridMain.Children.Add(buttonProject);
+                    childDetected++;
+                    string title = dataReader["title"].ToString();
+                    int h = Int32.Parse(dataReader["h"].ToString());
+                    int m = Int32.Parse(dataReader["min"].ToString());
+                    int s = Int32.Parse(dataReader["sec"].ToString());
+
+                    buttonProject.Content = title + "\n" + h + "h  " + m + "min  " + s + "s";
+
+                    dataReader.Close();
+
+                    databaseObject.CloseConnection();
+                    return;
                 }
+
             }
+            else
+            {
+                exists = false;
+            }
+            dataReader.Close();
             databaseObject.CloseConnection();
         }
 
         private void InitDatabase()
         {
-            Database databaseObject = new Database();
+            databaseObject = new Database();
 
             //COUNT ROWS
-            string query = "SELECT * FROM projects";
+            query = "SELECT * FROM projects";
 
-            SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
+            command = new SQLiteCommand(query, databaseObject.connection);
             databaseObject.OpenConnection();
-            SQLiteDataReader result = command.ExecuteReader();
+            dataReader = command.ExecuteReader();
 
-            if (result.HasRows)
+            if (dataReader.HasRows)
             {
                 numberOfChildren = 0;
-                while (result.Read())
+                while (dataReader.Read())
                 {
                     numberOfChildren++;
                 }
             }
+            dataReader.Close();
             databaseObject.CloseConnection();
         }
 
@@ -167,9 +195,6 @@ namespace TimeManagement
                 default:
                     int id = Int32.Parse(b.Name.Substring(4).ToString());
                     ProjectWindow projectWindow = new ProjectWindow(id);
-                 
-                 
-              
                     projectWindow.Show();
                     this.Close();
                     break;
