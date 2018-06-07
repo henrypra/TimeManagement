@@ -11,7 +11,6 @@
         Title="Zeitmanagement" Height="580" Width="830" WindowStartupLocation="CenterScreen" WindowStyle="None">
 
     <Grid>
-
         <StackPanel>
             <Grid Height="35" VerticalAlignment="Top" Background="Teal">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
@@ -31,9 +30,10 @@
                 <TextBlock Text="Zeitmanagement" IsHitTestVisible="false" HorizontalAlignment="Left" Margin="20 0" VerticalAlignment="Center" Foreground="White" FontSize="16"/>
             </Grid>
             <Grid Height="70" VerticalAlignment="Top" Background="#4d4d4d">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Label Name ="dashboard" Height="70" Content="Dashboard" Foreground="White" Width="600" FontFamily="Trebuchet MS"  IsHitTestVisible="false" HorizontalContentAlignment="Center" Margin="0,0,0,0" VerticalContentAlignment="Center" Grid.ColumnSpan="4"  FontSize="40"/>
-                </StackPanel>
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="830">
+                    <materialDesign:PackIcon Kind="ViewDashboard" Foreground="White" VerticalAlignment="Center" Height="32" Width="66" Margin="7,19,0,19" />
+                    <Label x:Name ="dashboard" Height="70" Content="Dashboard" Foreground="White" FontFamily="Trebuchet MS"  IsHitTestVisible="false"  Margin="70,0,131,0" VerticalContentAlignment="Center"  FontSize="40"/>
+                </Grid>
             </Grid>
 
         </StackPanel>
