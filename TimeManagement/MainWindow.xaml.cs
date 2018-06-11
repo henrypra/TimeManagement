@@ -26,6 +26,7 @@ namespace TimeManagement
         bool exists = false;
         int childDetected;
         Button buttonProject;
+        Label lbTitle;
         private string projectName;
         private int count;
         private int numberOfChildren;
@@ -91,6 +92,15 @@ namespace TimeManagement
                     Grid.SetColumn(buttonProject, usedSlots % 3);
                     Grid.SetRow(buttonProject, usedSlots / 3);
                     gridMain.Children.Add(buttonProject);
+
+                   
+                    lbTitle.FontSize = 24;
+                    lbTitle.Margin = new Thickness(0, 7.5, 0, 0);
+                    lbTitle.HorizontalAlignment = HorizontalAlignment.Center;
+                    lbTitle.VerticalAlignment = VerticalAlignment.Top;
+                    Grid.SetColumn(lbTitle, usedSlots % 3);
+                    Grid.SetRow(lbTitle, usedSlots / 3);
+                    gridMain.Children.Add(lbTitle);
                     usedSlots++;
                 }
                 else if (usedSlots < 9)
@@ -150,6 +160,7 @@ namespace TimeManagement
                 while (dataReader.Read())
                 {
                     buttonProject = new Button();
+                    lbTitle = new Label();
 
                     childDetected++;
                     string title = dataReader["title"].ToString();
@@ -157,7 +168,8 @@ namespace TimeManagement
                     int m = Int32.Parse(dataReader["min"].ToString());
                     int s = Int32.Parse(dataReader["sec"].ToString());
 
-                    buttonProject.Content = title + "\n" + h + "h  " + m + "min  " + s + "s";
+                    lbTitle.Content = title;
+                    buttonProject.Content = "\n" + h + "h  " + m + "min  " + s + "s";
 
                     dataReader.Close();
 
