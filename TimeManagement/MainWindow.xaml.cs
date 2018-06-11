@@ -176,7 +176,6 @@ namespace TimeManagement
             dataReader = command.ExecuteReader();
 
 
-
             if (dataReader.HasRows)
             {
                 exists = true;
@@ -207,12 +206,9 @@ namespace TimeManagement
                     }
 
                     String _s = s.ToString("00");
-
                     String _m = m.ToString("00");
-
                     String _h = h.ToString("00");
-
-
+                    
                     lbTitle.Content = title;
                     lbTime.Content =  _h + " : " + _m + " : " + _s;
 

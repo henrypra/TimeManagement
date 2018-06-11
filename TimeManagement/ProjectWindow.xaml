@@ -38,10 +38,8 @@
                 </Button>
 
                 <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="830">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Label x:Name ="project_title" HorizontalContentAlignment="Center" Content="Projekt" Foreground="White" FontFamily="Trebuchet MS"  IsHitTestVisible="false"  Margin="0,0,131,0" VerticalContentAlignment="Center"  FontSize="32"/>
+                    <Label x:Name ="project_title" HorizontalContentAlignment="Center" Content="Projekt" Foreground="White" FontFamily="Trebuchet MS"  IsHitTestVisible="false" VerticalContentAlignment="Center"  FontSize="32"/>
 
-                    </StackPanel>
                 </Grid>
             </Grid>
 
