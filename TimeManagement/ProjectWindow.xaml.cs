@@ -153,8 +153,7 @@ namespace TimeManagement
 
             sLocal = Int32.Parse(date.ToString("ss"));
             String s = sLocal.ToString("00");
-
-
+            
             timerLabel.Content = h + " : " + m + " : " + s;
         }
  

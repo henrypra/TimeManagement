@@ -26,7 +26,7 @@ namespace TimeManagement
         bool exists = false;
         int childDetected;
         Button buttonProject;
-        Label lbTitle, lbTime;
+        Label lbTitle, lbTime, lbTimeText;
         private string projectName;
         private int count;
         private int numberOfChildren;
@@ -103,15 +103,27 @@ namespace TimeManagement
                     Grid.SetRow(lbTitle, usedSlots / 3);
                     gridMain.Children.Add(lbTitle);
 
-                    lbTime.FontSize = 28;
-                    lbTime.Margin = new Thickness(0, 80, 0, 0);
+                    lbTime.FontSize = 32;
+                    lbTime.Margin = new Thickness(0, 75, 0, 0);
                     lbTime.HorizontalAlignment = HorizontalAlignment.Center;
-                    lbTime.FontFamily = new FontFamily("Digital-7 Mono");
+                    lbTime.FontFamily = new FontFamily("Digital-7 Mono Regular");
                     lbTime.VerticalAlignment = VerticalAlignment.Top;
                     lbTime.IsHitTestVisible = false;
                     Grid.SetColumn(lbTime, usedSlots % 3);
                     Grid.SetRow(lbTime, usedSlots / 3);
                     gridMain.Children.Add(lbTime);
+
+                    lbTimeText.FontSize = 16;
+                    lbTimeText.Margin = new Thickness(0, 120, 0, 0);
+                    lbTimeText.HorizontalAlignment = HorizontalAlignment.Center;
+                    lbTimeText.VerticalAlignment = VerticalAlignment.Top;
+                    lbTimeText.FontFamily = new FontFamily("Trebuchet MS");
+                    lbTimeText.IsHitTestVisible = false;
+                    lbTimeText.Content = "Std.\tMin.\tSek.";
+                    Grid.SetColumn(lbTimeText, usedSlots % 3);
+                    Grid.SetRow(lbTimeText, usedSlots / 3);
+                    gridMain.Children.Add(lbTimeText);
+
                     usedSlots++;
                 }
                 else if (usedSlots < 9)
@@ -173,6 +185,7 @@ namespace TimeManagement
                     buttonProject = new Button();
                     lbTitle = new Label();
                     lbTime = new Label();
+                    lbTimeText = new Label();
 
                     childDetected++;
                     string title = dataReader["title"].ToString();
@@ -180,8 +193,28 @@ namespace TimeManagement
                     int m = Int32.Parse(dataReader["min"].ToString());
                     int s = Int32.Parse(dataReader["sec"].ToString());
 
+
+                    if (s >= 60)
+                    {
+                        s = s % 60;
+                        m++;
+                    }
+
+                    if (m >= 60)
+                    {
+                        m = m % 60;
+                        h++;
+                    }
+
+                    String _s = s.ToString("00");
+
+                    String _m = m.ToString("00");
+
+                    String _h = h.ToString("00");
+
+
                     lbTitle.Content = title;
-                    lbTime.Content =  h + " : " + m + " : " + s;
+                    lbTime.Content =  _h + " : " + _m + " : " + _s;
 
                     dataReader.Close();
 
