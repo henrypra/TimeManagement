@@ -66,7 +66,6 @@ namespace TimeManagement
             Top = Top + e.VerticalChange;
         }
 
-
         private void generateButtons()
         {
             count = 0;
@@ -85,6 +84,10 @@ namespace TimeManagement
                     buttonProject.HorizontalContentAlignment = HorizontalAlignment.Center;
                     buttonProject.FontSize = 24;
                     buttonProject.Click += Button_Click;
+                    buttonProject.Background = new SolidColorBrush(Color.FromRgb(206, 213, 206));
+                    buttonProject.BorderBrush = System.Windows.Media.Brushes.Teal;
+                    buttonProject.BorderThickness = new Thickness(.5);
+
                     Grid.SetColumn(buttonProject, usedSlots % 3);
                     Grid.SetRow(buttonProject, usedSlots / 3);
                     gridMain.Children.Add(buttonProject);
@@ -96,6 +99,9 @@ namespace TimeManagement
                     buttonCancel.Content = "+";
                     buttonCancel.FontSize = 65;
                     buttonCancel.Name = "Add";
+                    buttonCancel.Background = new SolidColorBrush(Color.FromRgb(206, 213, 206));
+                    buttonCancel.BorderBrush = System.Windows.Media.Brushes.Teal;
+                    buttonCancel.BorderThickness = new Thickness(.5);
                     buttonCancel.Click += Button_Click;
                     Grid.SetColumn(buttonCancel, usedSlots % 3);
                     Grid.SetRow(buttonCancel, usedSlots / 3);
@@ -111,7 +117,6 @@ namespace TimeManagement
             databaseObject = new Database();
 
             //INSERT INTO DATABASE
-
 
             query = "INSERT INTO projects ('title', 'h', 'min', 'sec') VALUES (@title, @h, @min, @sec)";
 
