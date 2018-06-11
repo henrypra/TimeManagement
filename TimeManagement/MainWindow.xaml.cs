@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -25,6 +26,7 @@ namespace TimeManagement
         bool exists = false;
         int childDetected;
         Button buttonProject;
+        Label lbTitle, lbTime, lbTimeText;
         private string projectName;
         private int count;
         private int numberOfChildren;
@@ -59,6 +61,12 @@ namespace TimeManagement
             }
         }
 
+        private void headerThumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            Left = Left + e.HorizontalChange;
+            Top = Top + e.VerticalChange;
+        }
+
         private void generateButtons()
         {
             count = 0;
@@ -77,9 +85,45 @@ namespace TimeManagement
                     buttonProject.HorizontalContentAlignment = HorizontalAlignment.Center;
                     buttonProject.FontSize = 24;
                     buttonProject.Click += Button_Click;
+                    buttonProject.Background = new SolidColorBrush(Color.FromRgb(206, 213, 206));
+                    buttonProject.BorderBrush = System.Windows.Media.Brushes.Teal;
+                    buttonProject.BorderThickness = new Thickness(.5);
+
                     Grid.SetColumn(buttonProject, usedSlots % 3);
                     Grid.SetRow(buttonProject, usedSlots / 3);
                     gridMain.Children.Add(buttonProject);
+                   
+                    lbTitle.FontSize = 24;
+                    lbTitle.Margin = new Thickness(0, 12, 0, 0);
+                    lbTitle.HorizontalAlignment = HorizontalAlignment.Center;
+                    lbTitle.VerticalAlignment = VerticalAlignment.Top;
+                    lbTitle.FontFamily = new FontFamily("Trebuchet MS");
+                    lbTitle.IsHitTestVisible = false;
+                    Grid.SetColumn(lbTitle, usedSlots % 3);
+                    Grid.SetRow(lbTitle, usedSlots / 3);
+                    gridMain.Children.Add(lbTitle);
+
+                    lbTime.FontSize = 32;
+                    lbTime.Margin = new Thickness(0, 75, 0, 0);
+                    lbTime.HorizontalAlignment = HorizontalAlignment.Center;
+                    lbTime.FontFamily = new FontFamily("Digital-7 Mono Regular");
+                    lbTime.VerticalAlignment = VerticalAlignment.Top;
+                    lbTime.IsHitTestVisible = false;
+                    Grid.SetColumn(lbTime, usedSlots % 3);
+                    Grid.SetRow(lbTime, usedSlots / 3);
+                    gridMain.Children.Add(lbTime);
+
+                    lbTimeText.FontSize = 16;
+                    lbTimeText.Margin = new Thickness(0, 120, 0, 0);
+                    lbTimeText.HorizontalAlignment = HorizontalAlignment.Center;
+                    lbTimeText.VerticalAlignment = VerticalAlignment.Top;
+                    lbTimeText.FontFamily = new FontFamily("Trebuchet MS");
+                    lbTimeText.IsHitTestVisible = false;
+                    lbTimeText.Content = "Std.\tMin.\tSek.";
+                    Grid.SetColumn(lbTimeText, usedSlots % 3);
+                    Grid.SetRow(lbTimeText, usedSlots / 3);
+                    gridMain.Children.Add(lbTimeText);
+
                     usedSlots++;
                 }
                 else if (usedSlots < 9)
@@ -88,6 +132,9 @@ namespace TimeManagement
                     buttonCancel.Content = "+";
                     buttonCancel.FontSize = 65;
                     buttonCancel.Name = "Add";
+                    buttonCancel.Background = new SolidColorBrush(Color.FromRgb(206, 213, 206));
+                    buttonCancel.BorderBrush = System.Windows.Media.Brushes.Teal;
+                    buttonCancel.BorderThickness = new Thickness(.5);
                     buttonCancel.Click += Button_Click;
                     Grid.SetColumn(buttonCancel, usedSlots % 3);
                     Grid.SetRow(buttonCancel, usedSlots / 3);
@@ -103,7 +150,6 @@ namespace TimeManagement
             databaseObject = new Database();
 
             //INSERT INTO DATABASE
-
 
             query = "INSERT INTO projects ('title', 'h', 'min', 'sec') VALUES (@title, @h, @min, @sec)";
 
@@ -130,13 +176,15 @@ namespace TimeManagement
             dataReader = command.ExecuteReader();
 
 
-
             if (dataReader.HasRows)
             {
                 exists = true;
                 while (dataReader.Read())
                 {
                     buttonProject = new Button();
+                    lbTitle = new Label();
+                    lbTime = new Label();
+                    lbTimeText = new Label();
 
                     childDetected++;
                     string title = dataReader["title"].ToString();
@@ -144,7 +192,25 @@ namespace TimeManagement
                     int m = Int32.Parse(dataReader["min"].ToString());
                     int s = Int32.Parse(dataReader["sec"].ToString());
 
-                    buttonProject.Content = title + "\n" + h + "h  " + m + "min  " + s + "s";
+
+                    if (s >= 60)
+                    {
+                        s = s % 60;
+                        m++;
+                    }
+
+                    if (m >= 60)
+                    {
+                        m = m % 60;
+                        h++;
+                    }
+
+                    String _s = s.ToString("00");
+                    String _m = m.ToString("00");
+                    String _h = h.ToString("00");
+                    
+                    lbTitle.Content = title;
+                    lbTime.Content =  _h + " : " + _m + " : " + _s;
 
                     dataReader.Close();
 
@@ -191,6 +257,12 @@ namespace TimeManagement
             {
                 case "Add":
                     InputProjectTitle();
+                    break;
+                case "btn_close":
+                    this.Close();
+                    break;
+                case "btn_minimize":
+                    this.WindowState = WindowState.Minimized;
                     break;
                 default:
                     int id = Int32.Parse(b.Name.Substring(4).ToString());
