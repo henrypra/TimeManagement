@@ -45,27 +45,27 @@
 
             <Grid Height="483" Margin="0,0,0,0" Background="#eaf6f6">
                 <Grid Name="ControlPanel" Margin="500,0,0,0">
-                    <Button Background="Teal" BorderBrush="{x:Null}" BorderThickness="4" Name="btn_start" Click="Button_Click"  HorizontalAlignment="Left" Height="120" Margin="30,100,0,0"  VerticalAlignment="Top" Width="120">
+                    <Button Background="Teal" BorderBrush="{x:Null}" BorderThickness="4" Name="btn_start" Click="Button_Click"  HorizontalAlignment="Left" Height="120" Margin="30,100,0,0"  VerticalAlignment="Top" Width="120" ToolTipService.InitialShowDelay="500" ToolTipService.ShowDuration="2000"  ToolTipService.BetweenShowDelay="1"  ToolTip="Start">
                         <materialDesign:PackIcon Foreground="White" Kind="timer"  Height="60" Width="60" Margin="0 0"/>
                     </Button>
-                    <Button Background="Teal" BorderBrush="{x:Null}"  BorderThickness="4" Name="btn_pause" Click="Button_Click" HorizontalAlignment="Left" Height="120" Margin="165,100,0,0"  VerticalAlignment="Top" Width="120">
+                    <Button Background="Teal" BorderBrush="{x:Null}"  BorderThickness="4" Name="btn_pause" Click="Button_Click" HorizontalAlignment="Left" Height="120" Margin="165,100,0,0"  VerticalAlignment="Top" Width="120" ToolTipService.InitialShowDelay="500" ToolTipService.ShowDuration="2000"  ToolTipService.BetweenShowDelay="1" ToolTip="Pause">
                         <materialDesign:PackIcon Foreground="White" Kind="pause"  Height="60" Width="60" Margin="0 0"/>
                     </Button>
-                    <Button Background="Teal" BorderBrush="{x:Null}" Name="btn_save" Click="Button_Click" HorizontalAlignment="Left" Height="120" Margin="30,235,0,-52" VerticalAlignment="Top" Width="120">
+                    <Button Background="Teal" BorderBrush="{x:Null}" Name="btn_save" Click="Button_Click" HorizontalAlignment="Left" Height="120" Margin="30,235,0,-52" VerticalAlignment="Top" Width="120" ToolTipService.InitialShowDelay="500" ToolTipService.ShowDuration="2000"  ToolTipService.BetweenShowDelay="1" ToolTip="Speichern">
                         <materialDesign:PackIcon Foreground="White" Kind="ContentSaveOutline"  Height="60" Width="60" Margin="0 0"/>
                     </Button>
-                    <Button Background="Teal" BorderBrush="{x:Null}" Name="btn_clear" Click="Button_Click" HorizontalAlignment="Left" Height="120" Margin="165,235,0,-52"  VerticalAlignment="Top" Width="120">
+                    <Button Background="Teal" BorderBrush="{x:Null}" Name="btn_clear" Click="Button_Click" HorizontalAlignment="Left" Height="120" Margin="165,235,0,-52"  VerticalAlignment="Top" Width="120" ToolTipService.InitialShowDelay="500" ToolTipService.ShowDuration="2000"  ToolTipService.BetweenShowDelay="1"  ToolTip="Zurücksetzen">
                         <materialDesign:PackIcon Foreground="White" Kind="reload"  Height="60" Width="60" Margin="0 0"/>
                     </Button>
                 </Grid>
                 <Grid  Margin="0,0,0,0" Background="#676767" Width="100" HorizontalAlignment="Left">
-                    <Button Background="#676767" Name="btn_delete" BorderThickness="0 0 0 0.5" BorderBrush="White" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Height="90" Width="100"  Margin="0,0,0,0"  >
+                    <Button Background="#676767" Name="btn_delete" BorderThickness="0 0 0 0.5" BorderBrush="White" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Height="90" Width="100"  Margin="0,0,0,0" ToolTipService.InitialShowDelay="500" ToolTipService.ShowDuration="2000"  ToolTipService.BetweenShowDelay="1"  ToolTip="Löschen">
                         <materialDesign:PackIcon Foreground="White" Kind="Delete" Height="50" Width="50" Margin="0 0" />
                     </Button>
-                    <Button Background="#676767" Name="btn_edit" BorderThickness="0 0 0 0.5" BorderBrush="White" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Height="90" Width="100"  Margin="0,90,0,0"  >
+                    <Button Background="#676767" Name="btn_edit" BorderThickness="0 0 0 0.5" BorderBrush="White" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Height="90" Width="100"  Margin="0,90,0,0" ToolTipService.InitialShowDelay="500" ToolTipService.ShowDuration="2000"  ToolTipService.BetweenShowDelay="1"  ToolTip="Umbenennen">
                         <materialDesign:PackIcon Foreground="White" Kind="Pencil" Height="50" Width="50" Margin="0 0" />
                     </Button>
-                    <Button Background="#676767" Name="btn_erase" BorderThickness="0 0 0 0.5" BorderBrush="White" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Height="90" Width="100"  Margin="0,180,0,0"  >
+                    <Button Background="#676767" Name="btn_erase" BorderThickness="0 0 0 0.5" BorderBrush="White" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Height="90" Width="100"  Margin="0,180,0,0"  ToolTipService.InitialShowDelay="500" ToolTipService.ShowDuration="2000"  ToolTipService.BetweenShowDelay="1"  ToolTip="Gesamtzeit zurücksetzen">
                         <materialDesign:PackIcon Foreground="White" Kind="TimerOff" Height="50" Width="50" Margin="0 0" />
                     </Button>
 
