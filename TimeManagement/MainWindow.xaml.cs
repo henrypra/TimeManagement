@@ -92,7 +92,7 @@ namespace TimeManagement
                     Grid.SetColumn(buttonProject, usedSlots % 3);
                     Grid.SetRow(buttonProject, usedSlots / 3);
                     gridMain.Children.Add(buttonProject);
-                   
+
                     lbTitle.FontSize = 24;
                     lbTitle.Margin = new Thickness(0, 12, 0, 0);
                     lbTitle.HorizontalAlignment = HorizontalAlignment.Center;
@@ -208,9 +208,9 @@ namespace TimeManagement
                     String _s = s.ToString("00");
                     String _m = m.ToString("00");
                     String _h = h.ToString("00");
-                    
+
                     lbTitle.Content = title;
-                    lbTime.Content =  _h + " : " + _m + " : " + _s;
+                    lbTime.Content = _h + " : " + _m + " : " + _s;
 
                     dataReader.Close();
 

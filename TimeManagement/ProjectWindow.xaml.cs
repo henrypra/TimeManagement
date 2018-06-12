@@ -15,8 +15,8 @@ namespace TimeManagement
     /// </summary>
     public partial class ProjectWindow : Window
     {
-        private int hGlobal, mGlobal, sGlobal;
-        private int hLocal, mLocal, sLocal;
+        private int hGlobal, minGlobal, secGlobal;
+        private int hLocal, minLocal, secLocal;
         private DispatcherTimer timer;
         private TimeSpan startedTimeSpan;
         private TimeSpan pausedTimeSpan;
@@ -41,16 +41,10 @@ namespace TimeManagement
             state = StopWatchState.Stopped;
             timer = new DispatcherTimer();
 
-            // this.Interval is not available here yet
-            //timer.Interval = new TimeSpan(this.Interval * 10000);
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             id = _id;
             RetrieveData(id);
         }
 
-        /// <summary>
-        /// Static constructor.s
-        /// </summary>
         static ProjectWindow()
         {
             PropertyChangedCallback formatChangedCallback = new PropertyChangedCallback(FormatChanged);
@@ -61,10 +55,6 @@ namespace TimeManagement
         static void FormatChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             ProjectWindow thisStopWatch = (ProjectWindow)sender;
-            if (thisStopWatch != null)
-            {
-                //thisStopWatch.timerLabel.Content = thisStopWatch.Format;
-            }
         }
 
         public string Format
@@ -79,9 +69,6 @@ namespace TimeManagement
             }
         }
 
-        /// <summary>
-        /// Gets or sets the measure of duration between each tick.
-        /// </summary>
         public int Interval
         {
             get
@@ -94,18 +81,11 @@ namespace TimeManagement
             }
         }
 
-        /// <summary>
-        /// Gets the state of StopWatch. It can be either Stopped, Started or Paused.
-        /// </summary>        
         public StopWatchState State
         {
             get { return this.state; }
         }
 
-        /// <summary>
-        /// Starts the StopWatch.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">It is thrown when trying to start the StopWatch while is in Started state.</exception>
         public void Start()
         {
             if (this.state == StopWatchState.Started)
@@ -114,7 +94,6 @@ namespace TimeManagement
                 return;
             }
 
-            // If StopWatch is stopped...
             if (this.state == StopWatchState.Stopped)
             {
 
@@ -122,14 +101,12 @@ namespace TimeManagement
                 startedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
             }
 
-            // Or if it is Paused...
             else if (this.state == StopWatchState.Paused)
             {
                 startedTimeSpan = new TimeSpan(DateTime.Now.Ticks).Subtract(pausedTimeSpan).Add(startedTimeSpan);
                 pausedTimeSpan = TimeSpan.Zero;
             }
 
-            // Start StopWatch
             if (timer.Interval.Ticks == 0)
             {
                 timer.Interval = new TimeSpan(this.Interval * 10000);
@@ -148,15 +125,15 @@ namespace TimeManagement
             hLocal = Int32.Parse(date.ToString("HH"));
             String h = hLocal.ToString("00");
 
-            mLocal = Int32.Parse(date.ToString("mm"));
-            String m = mLocal.ToString("00");
+            minLocal = Int32.Parse(date.ToString("mm"));
+            String m = minLocal.ToString("00");
 
-            sLocal = Int32.Parse(date.ToString("ss"));
-            String s = sLocal.ToString("00");
-            
+            secLocal = Int32.Parse(date.ToString("ss"));
+            String s = secLocal.ToString("00");
+
             timerLabel.Content = h + " : " + m + " : " + s;
         }
- 
+
 
         private void headerThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
@@ -240,7 +217,7 @@ namespace TimeManagement
             state = StopWatchState.Paused;
             pausedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
             btn_start.BorderBrush = Brushes.Transparent;
-            btn_pause.BorderBrush = Brushes.Red; 
+            btn_pause.BorderBrush = Brushes.Red;
         }
 
         public void Save()
@@ -248,10 +225,10 @@ namespace TimeManagement
             Database databaseObject = new Database();
 
             //INSERT INTO DATABASE
-            string query = "UPDATE projects SET h= '" + (hLocal + hGlobal) + "', min='" + (mLocal + mGlobal) + "', sec='" + (sLocal + sGlobal) + "' WHERE id = " + id;
+            string query = "UPDATE projects SET h= '" + (hLocal + hGlobal) + "', min='" + (minLocal + minGlobal) + "', sec='" + (secLocal + secGlobal) + "' WHERE id = " + id;
             hLocal = 0;
-            mLocal = 0;
-            sLocal = 0;
+            minLocal = 0;
+            secLocal = 0;
             SQLiteCommand command = new SQLiteCommand(query, databaseObject.connection);
             databaseObject.OpenConnection();
             var result = command.ExecuteNonQuery();
@@ -373,26 +350,26 @@ namespace TimeManagement
             {
                 while (result.Read())
                 {
-                    sGlobal = Int32.Parse(result["sec"].ToString());
-                    mGlobal = Int32.Parse(result["min"].ToString());
+                    secGlobal = Int32.Parse(result["sec"].ToString());
+                    minGlobal = Int32.Parse(result["min"].ToString());
                     hGlobal = Int32.Parse(result["h"].ToString());
 
 
-                    if (sGlobal >= 60)
+                    if (secGlobal >= 60)
                     {
-                        sGlobal = sGlobal % 60;
-                        mGlobal++;
+                        secGlobal = secGlobal % 60;
+                        minGlobal++;
                     }
 
-                    if (mGlobal >= 60)
+                    if (minGlobal >= 60)
                     {
-                        mGlobal = mGlobal % 60;
+                        minGlobal = minGlobal % 60;
                         hGlobal++;
                     }
 
-                    String s = sGlobal.ToString("00");
+                    String s = secGlobal.ToString("00");
 
-                    String m = mGlobal.ToString("00");
+                    String m = minGlobal.ToString("00");
 
                     String h = hGlobal.ToString("00");
 
