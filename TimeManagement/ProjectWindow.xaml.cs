@@ -236,7 +236,7 @@ namespace TimeManagement
             timer.Stop();
             timer.Tick -= timer_Tick;
             timerLabel.Content = "00 : 00 : 00";
-            if (state == StopWatchState.Started)
+          /*  if (state == StopWatchState.Started)
             {
                 timer.Tick += timer_Tick;
                 startedTimeSpan = new TimeSpan(DateTime.Now.Ticks);
@@ -244,13 +244,11 @@ namespace TimeManagement
                 state = StopWatchState.Started;
                 btn_pause.BorderBrush = Brushes.Transparent;
                 btn_start.BorderBrush = Brushes.Red;
-            }
-            else
-            {
-                btn_pause.BorderBrush = Brushes.Transparent;
-                btn_start.BorderBrush = Brushes.Transparent;
-                state = StopWatchState.Stopped;
-            }
+            }*/
+
+            btn_pause.BorderBrush = Brushes.Transparent;
+            btn_start.BorderBrush = Brushes.Transparent;
+            state = StopWatchState.Stopped;
 
             RetrieveData(id);
         }
