@@ -85,14 +85,14 @@ namespace TimeManagement
                     buttonProject.HorizontalContentAlignment = HorizontalAlignment.Center;
                     buttonProject.FontSize = 24;
                     buttonProject.Click += Button_Click;
-                    buttonProject.Background = new SolidColorBrush(Color.FromRgb(206, 213, 206));
-                    buttonProject.BorderBrush = System.Windows.Media.Brushes.Teal;
+                    buttonProject.Background = new SolidColorBrush(Color.FromRgb(220, 236, 236));
+                    buttonProject.BorderBrush = new SolidColorBrush(Color.FromRgb(77, 77, 77));
                     buttonProject.BorderThickness = new Thickness(.5);
 
                     Grid.SetColumn(buttonProject, usedSlots % 3);
                     Grid.SetRow(buttonProject, usedSlots / 3);
                     gridMain.Children.Add(buttonProject);
-                   
+
                     lbTitle.FontSize = 24;
                     lbTitle.Margin = new Thickness(0, 12, 0, 0);
                     lbTitle.HorizontalAlignment = HorizontalAlignment.Center;
@@ -132,7 +132,7 @@ namespace TimeManagement
                     buttonCancel.Content = "+";
                     buttonCancel.FontSize = 65;
                     buttonCancel.Name = "Add";
-                    buttonCancel.Background = new SolidColorBrush(Color.FromRgb(206, 213, 206));
+                    buttonCancel.Background = new SolidColorBrush(Color.FromRgb(220, 236, 236));//(77,77,77)
                     buttonCancel.BorderBrush = System.Windows.Media.Brushes.Teal;
                     buttonCancel.BorderThickness = new Thickness(.5);
                     buttonCancel.Click += Button_Click;
@@ -208,9 +208,9 @@ namespace TimeManagement
                     String _s = s.ToString("00");
                     String _m = m.ToString("00");
                     String _h = h.ToString("00");
-                    
+
                     lbTitle.Content = title;
-                    lbTime.Content =  _h + " : " + _m + " : " + _s;
+                    lbTime.Content = _h + " : " + _m + " : " + _s;
 
                     dataReader.Close();
 

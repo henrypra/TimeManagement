@@ -43,7 +43,7 @@
                 </Grid>
 
             </StackPanel>
-            <Grid Margin="0,94,0,0"  Name="gridMain" ShowGridLines="False" Background="#eaf6f6">
+            <Grid Margin="0,94,0,0"  Name="gridMain" ShowGridLines="False" Background="White">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
